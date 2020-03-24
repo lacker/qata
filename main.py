@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
-from pyquil import Program
+from pyquil import get_qc, Program
+from pyquil.api import local_forest_runtime
 from pyquil.gates import *
 
-p = Program()
-ro = p.declare("ro", "BIT", 1)
-p += X(0)
-p += MEASURE(0, ro[0])
+prog = Program(H(0), CNOT(0, 1))
 
-print(p)
+with local_forest_runtime():
+    qvm = get_qc("9q-square-qvm")
+    results = qvm.run_and_measure(prog, trials=10)
+    print(results)
