@@ -6,7 +6,23 @@ from pyquil.gates import *
 
 prog = Program(H(0), CNOT(0, 1))
 
-with local_forest_runtime():
-    qvm = get_qc("2q-qvm")
-    results = qvm.run_and_measure(prog, trials=10)
-    print(results)
+
+def throw_octahedral_die():
+    qvm = get_qc("3q-qvm")
+    program = Program(H(0), H(1), H(2))
+    ro = program.declare("ro", "BIT", 3)
+    program += MEASURE(0, ro[0])
+    program += MEASURE(1, ro[1])
+    program += MEASURE(2, ro[2])
+    result = qvm.run(program)
+    a, b, c = result[0]
+    return 1 + 4 * a + 2 * b + c
+
+
+def main():
+    print(throw_octahedral_die())
+
+
+if __name__ == "__main__":
+    with local_forest_runtime():
+        main()
