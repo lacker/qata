@@ -19,6 +19,14 @@ def throw_octahedral_die():
     return 1 + 4 * a + 2 * b + c
 
 
+def throw_polyhedral_die(num_sides):
+    answer_bits = math.ceil(math.log2(num_sides))
+    num_bits = answer_bits + 1
+    qvm = get_qc(f"{num_bits}q-qvm")
+
+    # TODO: finish, somehow
+
+
 def main():
     print(throw_octahedral_die())
 
