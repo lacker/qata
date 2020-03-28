@@ -19,6 +19,11 @@ def throw_octahedral_die():
     return 1 + 4 * a + 2 * b + c
 
 
+# TODO: maybe use this
+def randomize_bits(program, scratch, bit_range, maximum):
+    pass
+
+
 def throw_polyhedral_die(num_sides):
     answer_bits = math.ceil(math.log2(num_sides))
     num_bits = answer_bits + 1
