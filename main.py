@@ -19,9 +19,13 @@ def throw_octahedral_die():
     return 1 + 4 * a + 2 * b + c
 
 
-# TODO: maybe use this
-def randomize_bits(program, scratch, bit_range, maximum):
-    pass
+def apply_conditional_hadamard(program, condition, targets):
+    """
+    In the superimposition where the condition is true, applies Hadamard gates
+    on all the target bits.
+    """
+    for target in targets:
+        program += H(target).controlled(condition)
 
 
 def throw_polyhedral_die(num_sides):
