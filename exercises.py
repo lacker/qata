@@ -19,6 +19,7 @@ def throw_octahedral_die():
     return 1 + 4 * a + 2 * b + c
 
 
+# TODO: remove
 def apply_conditional_hadamard(program, condition, targets):
     """
     In the superimposition where the condition is true, applies Hadamard gates

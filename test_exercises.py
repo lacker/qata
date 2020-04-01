@@ -11,8 +11,8 @@ class TestExercises(unittest.TestCase):
     def test_octahedral_die(self):
         outcomes = [throw_octahedral_die() for _ in range(80)]
         for outcome in outcomes:
-            self.assertLessThan(outcome, 9)
-            self.assertGreaterThan(outcome, 0)
+            self.assertLess(outcome, 9)
+            self.assertGreater(outcome, 0)
 
 
 if __name__ == "__main__":
