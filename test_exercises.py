@@ -9,12 +9,12 @@ from exercises import *
 
 class TestExercises(unittest.TestCase):
     def test_octahedral_die(self):
-        outcomes = [throw_octahedral_die() for _ in range(80)]
-        for outcome in outcomes:
+        for _ in range(10):
+            outcome = throw_octahedral_die()
             self.assertLess(outcome, 9)
             self.assertGreater(outcome, 0)
 
 
 if __name__ == "__main__":
     with local_forest_runtime():
-        unittest.main()
+        unittest.main(warnings="ignore")
