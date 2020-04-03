@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import math
+
 from pyquil import get_qc, Program
 from pyquil.api import local_forest_runtime
 from pyquil.gates import *
@@ -17,10 +19,25 @@ def apply_conditional_hadamard(program, condition, targets):
         program += H(target).controlled(condition)
 
 
-def throw_polyhedral_die(num_sides):
+def flip_coin(probability):
+    """
+    Flips a quantum coin, gets 1 with the given probability.
+    """
+    qvm = get_qc("1q-qvm")
+    program = Program()
+    ro = program.declare("ro", "BIT", 1)
+    angle = 2 * math.asin(math.sqrt(probability))
+    program += RX(angle, 0)
+    program += MEASURE(0, ro[0])
+    result = qvm.run(program)
+    return result[0]
+
+
+def throw_die(num_sides):
     answer_bits = math.ceil(math.log2(num_sides))
     num_bits = answer_bits + 1
-    qvm = get_qc(f"{num_bits}q-qvm")
+    qvm = get_qc(f"{num_sides}q-qvm")
+    program = Program()
 
     # TODO: finish, somehow
 
@@ -38,8 +55,9 @@ def throw_octahedral_die():
 
 
 def main():
-    for _ in range(10):
-        print(throw_octahedral_die())
+    results = [flip_coin(0.1) for _ in range(1000)]
+    for x in range(2):
+        print(x, results.count(x))
 
 
 if __name__ == "__main__":
