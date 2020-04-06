@@ -33,13 +33,29 @@ def flip_coin(probability):
     return result[0]
 
 
-def throw_die(num_sides):
-    answer_bits = math.ceil(math.log2(num_sides))
-    num_bits = answer_bits + 1
-    qvm = get_qc(f"{num_sides}q-qvm")
-    program = Program()
+def get_qvm(num_qubits):
+    return get_qc(f"{num_qubits}q-qvm")
 
-    # TODO: finish, somehow
+
+def throw_die(num_sides):
+    qvm = get_qvm(num_sides)
+    program = Program()
+    ro = program.declare("ro", "BIT", num_sides)
+    for i in range(num_sides):
+        # A 0 in the ith bit represents choosing this number.
+        # We first set it to 1, then if there are no previous 0's,
+        # we set it to zero with the appropriate probability.
+        program += X(i)
+        remaining = num_sides - i
+        angle = 2 * math.asin(math.sqrt(1.0 / remaining))
+        gate = RX(angle, i)
+        for j in range(i):
+            gate = gate.controlled(j)
+        program += gate
+    for i in range(num_sides):
+        program += MEASURE(i, ro[i])
+    result = qvm.run(program)
+    return list(result[0]).index(0)
 
 
 def throw_octahedral_die():
@@ -55,9 +71,9 @@ def throw_octahedral_die():
 
 
 def main():
-    results = [flip_coin(0.1) for _ in range(1000)]
-    for x in range(2):
-        print(x, results.count(x))
+    results = [throw_die(5) for _ in range(100)]
+    for i in range(5):
+        print(i, results.count(i))
 
 
 if __name__ == "__main__":
