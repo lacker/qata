@@ -19,6 +19,15 @@ def apply_conditional_hadamard(program, condition, targets):
         program += H(target).controlled(condition)
 
 
+def rotation(probability, index):
+    """
+    Return a gate that rotates a particular index with the given probability.
+    So if it starts as a 0, with probability it goes to a 1.
+    """
+    angle = 2 * math.asin(math.sqrt(probability))
+    return RX(angle, index)
+
+
 def flip_coin(probability):
     """
     Flips a quantum coin, gets 1 with the given probability.
@@ -26,11 +35,19 @@ def flip_coin(probability):
     qvm = get_qc("1q-qvm")
     program = Program()
     ro = program.declare("ro", "BIT", 1)
-    angle = 2 * math.asin(math.sqrt(probability))
-    program += RX(angle, 0)
+    program += rotation(probability, 0)
     program += MEASURE(0, ro[0])
     result = qvm.run(program)
     return result[0]
+
+
+def flip_coins(probabilities):
+    """
+    Flips a quantum coin for each probability.
+    The probabilities are the odds of getting 1 in that spot.
+    """
+    qvm = get_qvm(len(probabilities))
+    # TODO
 
 
 def get_qvm(num_qubits):
