@@ -88,8 +88,8 @@ def throw_octahedral_die():
 
 
 def main():
-    results = [throw_die(5) for _ in range(100)]
-    for i in range(5):
+    results = [flip_coin(0.75) for _ in range(100)]
+    for i in range(2):
         print(i, results.count(i))
 
 
