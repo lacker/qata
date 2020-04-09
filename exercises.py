@@ -32,7 +32,7 @@ def flip_coin(probability):
     """
     Flips a quantum coin, gets 1 with the given probability.
     """
-    qvm = get_qc("1q-qvm")
+    qvm = get_qvm(1)
     program = Program()
     ro = program.declare("ro", "BIT", 1)
     program += rotation(probability, 0)
@@ -47,7 +47,13 @@ def flip_coins(probabilities):
     The probabilities are the odds of getting 1 in that spot.
     """
     qvm = get_qvm(len(probabilities))
-    # TODO
+    program = Program()
+    ro = program.declare("ro", "BIT", len(probabilities))
+    for i, prob in enumerate(probabilities):
+        program += rotation(prob, i)
+        program += MEASURE(i, ro[i])
+    result = qvm.run(program)
+    return list(result[0])
 
 
 def get_qvm(num_qubits):
@@ -88,9 +94,19 @@ def throw_octahedral_die():
 
 
 def main():
-    results = [flip_coin(0.75) for _ in range(100)]
+    results = [flip_coins([0.5, 0.3, 0.1]) for _ in range(100)]
+    first = [a for a, _, _ in results]
+    second = [b for _, b, _ in results]
+    third = [c for _, _, c in results]
+    print("first:")
     for i in range(2):
-        print(i, results.count(i))
+        print(i, first.count(i))
+    print("second:")
+    for i in range(2):
+        print(i, second.count(i))
+    print("third:")
+    for i in range(2):
+        print(i, third.count(i))
 
 
 if __name__ == "__main__":
