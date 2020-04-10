@@ -9,14 +9,8 @@ from pyquil.gates import *
 prog = Program(H(0), CNOT(0, 1))
 
 
-# TODO: remove
-def apply_conditional_hadamard(program, condition, targets):
-    """
-    In the superimposition where the condition is true, applies Hadamard gates
-    on all the target bits.
-    """
-    for target in targets:
-        program += H(target).controlled(condition)
+def get_qvm(num_qubits):
+    return get_qc(f"{num_qubits}q-qvm")
 
 
 def rotation(probability, index):
@@ -56,11 +50,7 @@ def flip_coins(probabilities):
     return list(result[0])
 
 
-def get_qvm(num_qubits):
-    return get_qc(f"{num_qubits}q-qvm")
-
-
-def throw_die(num_sides):
+def throw_die_inefficiently(num_sides):
     qvm = get_qvm(num_sides)
     program = Program()
     ro = program.declare("ro", "BIT", num_sides)
@@ -79,6 +69,18 @@ def throw_die(num_sides):
         program += MEASURE(i, ro[i])
     result = qvm.run(program)
     return list(result[0]).index(0)
+
+
+def throw_die(num_sides):
+    probabilities = []
+    while num_sides > 1:
+        if num_sides % 2 == 0:
+            probabilities.append(0.5)
+            num_sides /= 2
+        else:
+            probabilities.append(1.0 / num_sides)
+            num_sides -= 1
+    # TODO: more
 
 
 def throw_octahedral_die():
