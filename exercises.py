@@ -73,13 +73,17 @@ def throw_die_inefficiently(num_sides):
 
 def throw_die(num_sides):
     probabilities = []
+    inverses = []
     while num_sides > 1:
         if num_sides % 2 == 0:
             probabilities.append(0.5)
+            inverses.append(2)
             num_sides /= 2
         else:
             probabilities.append(1.0 / num_sides)
+            inverses.append(num_sides)
             num_sides -= 1
+    flips = flip_coins(probabilities)
     # TODO: more
 
 
