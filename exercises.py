@@ -73,18 +73,19 @@ def throw_die_inefficiently(num_sides):
 
 def throw_die(num_sides):
     probabilities = []
-    inverses = []
+    num_sides_log = []
     while num_sides > 1:
+        num_sides_log.append(num_sides)
         if num_sides % 2 == 0:
             probabilities.append(0.5)
-            inverses.append(2)
             num_sides /= 2
         else:
             probabilities.append(1.0 / num_sides)
-            inverses.append(num_sides)
             num_sides -= 1
     flips = flip_coins(probabilities)
-    # TODO: more
+    answer = 1
+    for flip, maximum in reversed(zip(flips, num_sides_log)):
+        pass # TODO
 
 
 def throw_octahedral_die():
