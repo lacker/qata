@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import math
 
@@ -84,8 +84,14 @@ def throw_die(num_sides):
             num_sides -= 1
     flips = flip_coins(probabilities)
     answer = 1
-    for flip, maximum in reversed(zip(flips, num_sides_log)):
-        pass # TODO
+    for flip, maximum in reversed(list(zip(flips, num_sides_log))):
+        if not flip:
+            continue
+        if maximum % 2 == 0:
+            answer += maximum / 2
+        else:
+            answer = maximum
+    return answer
 
 
 def throw_octahedral_die():
@@ -101,19 +107,9 @@ def throw_octahedral_die():
 
 
 def main():
-    results = [flip_coins([0.5, 0.3, 0.1]) for _ in range(100)]
-    first = [a for a, _, _ in results]
-    second = [b for _, b, _ in results]
-    third = [c for _, _, c in results]
-    print("first:")
-    for i in range(2):
-        print(i, first.count(i))
-    print("second:")
-    for i in range(2):
-        print(i, second.count(i))
-    print("third:")
-    for i in range(2):
-        print(i, third.count(i))
+    results = [throw_die(15) for _ in range(15000)]
+    for i in range(1, 8):
+        print(f"{i}:", results.count(i))
 
 
 if __name__ == "__main__":
