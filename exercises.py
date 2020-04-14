@@ -2,6 +2,8 @@
 
 import math
 
+import numpy as np
+
 from pyquil import get_qc, Program
 from pyquil.api import local_forest_runtime
 from pyquil.gates import *
@@ -104,6 +106,15 @@ def throw_octahedral_die():
     result = qvm.run(program)
     a, b, c = result[0]
     return 1 + 4 * a + 2 * b + c
+
+
+def controlled(submatrix):
+    """
+    Create a matrix that applies submatrix to the second qubit based on the first qubit.
+    """
+    upper_left = np.identity(2)
+    off_diagonal = np.zeros((2, 2))
+    # TODO: complete
 
 
 def main():
