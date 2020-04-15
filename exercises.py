@@ -114,13 +114,15 @@ def controlled(submatrix):
     """
     upper_left = np.identity(2)
     off_diagonal = np.zeros((2, 2))
-    # TODO: complete
+    upper = np.concatenate(upper_left, off_diagonal, axis=0)
+    print("upper:", upper)
+    lower = np.concatenate(off_diagonal, submatrix, axis=0)
+    print("lower:", upper)
+    return np.concatenate(upper, lower, axis=1)
 
 
 def main():
-    results = [throw_die(15) for _ in range(15000)]
-    for i in range(1, 8):
-        print(f"{i}:", results.count(i))
+    print(controlled(np.zeros((2, 2))))
 
 
 if __name__ == "__main__":
