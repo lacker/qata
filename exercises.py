@@ -115,9 +115,7 @@ def controlled(submatrix):
     upper_left = np.identity(2)
     off_diagonal = np.zeros((2, 2))
     upper = np.concatenate([upper_left, off_diagonal], axis=0)
-    print("upper:", upper)
     lower = np.concatenate([off_diagonal, submatrix], axis=0)
-    print("lower:", upper)
     return np.concatenate([upper, lower], axis=1)
 
 

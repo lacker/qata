@@ -2,6 +2,8 @@
 
 import unittest
 
+import numpy as np
+
 from pyquil.api import local_forest_runtime
 
 from exercises import *
@@ -13,6 +15,10 @@ class TestExercises(unittest.TestCase):
             outcome = throw_octahedral_die()
             self.assertLess(outcome, 9)
             self.assertGreater(outcome, 0)
+
+    def test_controlled(self):
+        c = controlled(np.zeros((2, 2)))
+        self.assertEqual(np.trace(c), 2)
 
 
 if __name__ == "__main__":
