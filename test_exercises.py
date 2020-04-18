@@ -19,6 +19,8 @@ class TestExercises(unittest.TestCase):
     def test_controlled(self):
         c = controlled(np.zeros((2, 2)))
         self.assertEqual(np.trace(c), 2)
+        c = controlled(np.identity(2))
+        self.assertEqual(np.trace(c), 4)
 
 
 if __name__ == "__main__":
