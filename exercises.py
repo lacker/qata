@@ -120,7 +120,8 @@ def controlled(submatrix):
 
 
 def main():
-    print(controlled(np.zeros((2, 2))))
+    y = np.array([[0, -1j], [1j, 0]])
+    print(controlled(y))
 
 
 if __name__ == "__main__":
