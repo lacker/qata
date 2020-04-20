@@ -7,6 +7,7 @@ import numpy as np
 from pyquil import get_qc, Program
 from pyquil.api import local_forest_runtime
 from pyquil.gates import *
+from pyquil.quil import DefGate
 
 prog = Program(H(0), CNOT(0, 1))
 
@@ -119,9 +120,17 @@ def controlled(submatrix):
     return np.concatenate([upper, lower], axis=1)
 
 
-def main():
+def simulate_controlled_y():
     y = np.array([[0, -1j], [1j, 0]])
-    print(controlled(y))
+    controlled_y_definition = DefGate("CONTROLLED-Y", controlled(y))
+    CONTROLLED_Y = controlled_y_definition.get_constructor()
+
+    p = Program(controlled_y_definition, CONTROLLED_Y(0, 1))
+    # TODO: inspect a wavefunction a la the tip in "defining new gates"
+
+
+def main():
+    simulate_controlled_y()
 
 
 if __name__ == "__main__":
