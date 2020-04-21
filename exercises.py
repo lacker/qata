@@ -5,7 +5,7 @@ import math
 import numpy as np
 
 from pyquil import get_qc, Program
-from pyquil.api import local_forest_runtime
+from pyquil.api import local_forest_runtime, WavefunctionSimulator
 from pyquil.gates import *
 from pyquil.quil import DefGate
 
@@ -126,7 +126,8 @@ def simulate_controlled_y():
     CONTROLLED_Y = controlled_y_definition.get_constructor()
 
     p = Program(controlled_y_definition, CONTROLLED_Y(0, 1))
-    # TODO: inspect a wavefunction a la the tip in "defining new gates"
+    print(WavefunctionSimulator().wavefunction(p))
+    # TODO: find wavefunction if starting with 1,0
 
 
 def main():
