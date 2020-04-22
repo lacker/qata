@@ -130,6 +130,15 @@ def simulate_controlled_y():
     # TODO: find wavefunction if starting with 1,0
 
 
+def diffusion(n):
+    """
+    Return a n x n Grover's diffusion operator matrix.
+    """
+    ones = np.ones((n, n))
+    identity = np.identity(n)
+    return 2.0 / n * ones - identity
+
+
 def main():
     simulate_controlled_y()
 
