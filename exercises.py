@@ -139,6 +139,12 @@ def diffusion(n):
     return 2.0 / n * ones - identity
 
 
+def single_shot_grover(input_bits):
+    n = 2 ** len(input_bits)
+    matrix = diffusion(n)
+    # TODO: more
+
+
 def main():
     simulate_controlled_y()
 
