@@ -142,7 +142,10 @@ def diffusion(n):
 def single_shot_grover(input_bits):
     n = 2 ** len(input_bits)
     matrix = diffusion(n)
-    # TODO: more
+    diffusion_definition = DefGate("DIFFUSION", matrix)
+    DIFFUSION = definition.get_constructor()
+
+    # TODO
 
 
 def main():
