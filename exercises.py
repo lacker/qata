@@ -139,17 +139,20 @@ def diffusion(n):
     return 2.0 / n * ones - identity
 
 
-def single_shot_grover(input_bits):
+def single_shot_grovers(input_bits):
     n = 2 ** len(input_bits)
     matrix = diffusion(n)
     diffusion_definition = DefGate("DIFFUSION", matrix)
-    DIFFUSION = definition.get_constructor()
+    DIFFUSION = diffusion_definition.get_constructor()
 
-    # TODO
+    p = Program(diffusion_definition)
+    p += DIFFUSION(**input_bits)  # bug here, run ./exercises.py to see
+
+    print(p)
 
 
 def main():
-    simulate_controlled_y()
+    single_shot_grovers([0, 0, 1, 0])
 
 
 if __name__ == "__main__":
