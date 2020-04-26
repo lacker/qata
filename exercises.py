@@ -125,7 +125,8 @@ def simulate_controlled_y():
     controlled_y_definition = DefGate("CONTROLLED-Y", controlled(y))
     CONTROLLED_Y = controlled_y_definition.get_constructor()
 
-    p = Program(controlled_y_definition, CONTROLLED_Y(0, 1))
+    p = Program(controlled_y_definition)
+    p += CONTROLLED_Y(0, 1)
     print(WavefunctionSimulator().wavefunction(p))
     # TODO: find wavefunction if starting with 1,0
 
