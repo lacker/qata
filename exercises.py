@@ -150,6 +150,7 @@ def single_shot_grovers(input_bits):
     p = Program(diffusion_definition)
     p += DIFFUSION(*input_bits)
 
+    # TODO: make this return a one-bit rather than the whole program
     print(p)
 
 
