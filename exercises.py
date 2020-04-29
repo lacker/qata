@@ -148,7 +148,7 @@ def single_shot_grovers(input_bits):
     DIFFUSION = diffusion_definition.get_constructor()
 
     p = Program(diffusion_definition)
-    p += DIFFUSION(**input_bits)  # bug here, run ./exercises.py to see
+    p += DIFFUSION(*input_bits)
 
     print(p)
 
