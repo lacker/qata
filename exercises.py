@@ -142,16 +142,14 @@ def diffusion(n):
 
 
 def single_shot_grovers(input_bits):
-    n = 2 ** len(input_bits)
-    matrix = diffusion(n)
-    diffusion_definition = DefGate("DIFFUSION", matrix)
-    DIFFUSION = diffusion_definition.get_constructor()
+    n = math.round(math.log2(len(input_bits)))
+    if 2 ** n != len(input_bits):
+        raise Exception(f"could not logify ${input_bits}")
 
-    p = Program(diffusion_definition)
-    p += DIFFUSION(*input_bits)
-
-    # TODO: make this return a one-bit rather than the whole program
-    print(p)
+    # TODO: stick input_bits in parametrically
+    # TODO: define up the diffusion operator via hadamards etc
+    p = Program()
+    qvm = get_qvm(n)
 
 
 def main():
