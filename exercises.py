@@ -142,7 +142,7 @@ def diffusion(n):
 
 
 def single_shot_grovers(input_bits):
-    n = math.round(math.log2(len(input_bits)))
+    n = round(math.log2(len(input_bits)))
     if 2 ** n != len(input_bits):
         raise Exception(f"could not logify ${input_bits}")
 
