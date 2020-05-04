@@ -146,8 +146,11 @@ def single_shot_grovers(input_bits):
     if 2 ** n != len(input_bits):
         raise Exception(f"could not logify ${input_bits}")
 
-    # TODO: stick input_bits in parametrically
-    # TODO: define up the diffusion operator via hadamards etc
+    # Construct matrices for operating our function, and Grover diffusion
+    function_matrix = np.diag([1 - 2 * bit for bit in input_bits])
+    diffusion_matrix = diffusion(len(input_bits))
+
+    # TODO: wire up the program
     p = Program()
     qvm = get_qvm(n)
 
