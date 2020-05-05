@@ -146,9 +146,14 @@ def single_shot_grovers(input_bits):
     if 2 ** n != len(input_bits):
         raise Exception(f"could not logify ${input_bits}")
 
-    # Construct matrices for operating our function, and Grover diffusion
-    function_matrix = np.diag([1 - 2 * bit for bit in input_bits])
+    # Construct gates for operating our function, and Grover diffusion
+    bit_picker_matrix = np.diag([1 - 2 * bit for bit in input_bits])
+    bit_picker_definition = DefGate("BIT-PICKER", bit_picker_matrix)
+    BIT_PICKER = bit_picker_definition.get_constructor()
+
     diffusion_matrix = diffusion(len(input_bits))
+    diffusion_definition = DefGate("DIFFUSION", diffusion_matrix)
+    DIFFUSION = diffusion_definition.get_constructor()
 
     # TODO: wire up the program
     p = Program()
