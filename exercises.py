@@ -155,9 +155,13 @@ def single_shot_grovers(input_bits):
     diffusion_definition = DefGate("DIFFUSION", diffusion_matrix)
     DIFFUSION = diffusion_definition.get_constructor()
 
-    # TODO: wire up the program
-    p = Program()
+    # Wire up the program
     qvm = get_qvm(n)
+    p = Program()
+    p += BIT_PICKER(*range(len(input_bits)))
+    p += DIFFUSION(*range(len(input_bits)))
+
+    # TODO: read output
 
 
 def main():
