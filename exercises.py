@@ -161,9 +161,10 @@ def single_shot_grovers(input_bits):
     p += BIT_PICKER(*range(len(input_bits)))
     p += DIFFUSION(*range(len(input_bits)))
 
-    # TODO: read output
+    print(WavefunctionSimulator().wavefunction(p))
 
 
+# TODO: run and see if this does something
 def main():
     single_shot_grovers([0, 0, 1, 0])
 
