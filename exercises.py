@@ -158,6 +158,8 @@ def single_shot_grovers(input_bits):
     # Wire up the program
     qvm = get_qvm(n)
     p = Program()
+    p += bit_picker_definition
+    p += diffusion_definition
     p += BIT_PICKER(*range(len(input_bits)))
     p += DIFFUSION(*range(len(input_bits)))
 
