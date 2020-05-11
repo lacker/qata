@@ -166,7 +166,7 @@ def single_shot_grovers(input_bits):
     print(WavefunctionSimulator().wavefunction(p))
 
 
-# TODO: run and see if this does something
+# TODO: run, look at the wave function, think if that's what it's supposed to be
 def main():
     single_shot_grovers([0, 0, 1, 0])
 
