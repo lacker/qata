@@ -160,13 +160,18 @@ def single_shot_grovers(input_bits):
     p = Program()
     p += bit_picker_definition
     p += diffusion_definition
+
+    # Superposition
+    for i in range(n):
+        p += H(i)
+
     p += BIT_PICKER(*range(n))
     p += DIFFUSION(*range(n))
 
     print(WavefunctionSimulator().wavefunction(p))
 
 
-# TODO: run, look at the wave function, think if that's what it's supposed to be
+# TODO: bit picker is flipping the wrong bit. fix that part
 def main():
     single_shot_grovers([0, 0, 1, 0])
 
