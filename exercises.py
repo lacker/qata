@@ -141,13 +141,23 @@ def diffusion(n):
     return 2.0 / n * ones - identity
 
 
+def reindex_endian(values):
+    if len(values) <= 2:
+        return values
+    evens = values[::2]
+    odds = values[1::2]
+    assert len(evens) == len(odds)
+    return reindex_endian(evens) + reindex_endian(odds)
+
+
 def single_shot_grovers(input_bits):
     n = round(math.log2(len(input_bits)))
     if 2 ** n != len(input_bits):
         raise Exception(f"could not logify ${input_bits}")
 
     # Construct gates for operating our function, and Grover diffusion
-    bit_picker_matrix = np.diag([1 - 2 * bit for bit in input_bits])
+    bit_picker_matrix = np.diag([1 - 2 * bit for bit in reindex_endian(input_bits)])
+    print(bit_picker_matrix)
     bit_picker_definition = DefGate("BIT-PICKER", bit_picker_matrix)
     BIT_PICKER = bit_picker_definition.get_constructor()
 
@@ -171,9 +181,9 @@ def single_shot_grovers(input_bits):
     print(WavefunctionSimulator().wavefunction(p))
 
 
-# TODO: bit picker is flipping the wrong bit. fix that part
+# TODO: do we want to specifically print out the wave function?
 def main():
-    single_shot_grovers([0, 0, 1, 0])
+    single_shot_grovers([0, 0, 0, 0, 0, 0, 1, 1])
 
 
 if __name__ == "__main__":
