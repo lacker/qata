@@ -178,10 +178,16 @@ def single_shot_grovers(input_bits):
     p += BIT_PICKER(*range(n))
     p += DIFFUSION(*range(n))
 
-    print(WavefunctionSimulator().wavefunction(p))
+    # print(WavefunctionSimulator().wavefunction(p))
+    ro = program.declare("ro", "BIT", n)
+    for i in range(n):
+        program += MEASURE(i, ro[i])
+
+    result = qvm.run(program)
+    return result[0]
 
 
-# TODO: do we want to specifically print out the wave function?
+# TODO: check out what result gets, maybe nicify
 def main():
     single_shot_grovers([0, 0, 0, 0, 0, 0, 1, 1])
 
