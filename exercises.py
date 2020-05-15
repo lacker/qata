@@ -150,14 +150,20 @@ def reindex_endian(values):
     return reindex_endian(evens) + reindex_endian(odds)
 
 
+def number_from_binary(bits):
+    answer = 0
+    for bit in bits:
+        answer = 2 * answer + bit
+    return answer
+
+
 def single_shot_grovers(input_bits):
     n = round(math.log2(len(input_bits)))
     if 2 ** n != len(input_bits):
         raise Exception(f"could not logify ${input_bits}")
 
     # Construct gates for operating our function, and Grover diffusion
-    bit_picker_matrix = np.diag([1 - 2 * bit for bit in reindex_endian(input_bits)])
-    print(bit_picker_matrix)
+    bit_picker_matrix = np.diag([1 - 2 * bit for bit in input_bits])
     bit_picker_definition = DefGate("BIT-PICKER", bit_picker_matrix)
     BIT_PICKER = bit_picker_definition.get_constructor()
 
@@ -178,18 +184,17 @@ def single_shot_grovers(input_bits):
     p += BIT_PICKER(*range(n))
     p += DIFFUSION(*range(n))
 
-    # print(WavefunctionSimulator().wavefunction(p))
-    ro = program.declare("ro", "BIT", n)
+    ro = p.declare("ro", "BIT", n)
     for i in range(n):
-        program += MEASURE(i, ro[i])
+        p += MEASURE(i, ro[i])
 
-    result = qvm.run(program)
-    return result[0]
+    result = qvm.run(p)
+    return number_from_binary(result[0])
 
 
-# TODO: check out what result gets, maybe nicify
 def main():
-    single_shot_grovers([0, 0, 0, 0, 0, 0, 1, 1])
+    result = single_shot_grovers([0, 0, 0, 0, 0, 0, 1, 1])
+    print(result)
 
 
 if __name__ == "__main__":
